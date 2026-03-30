@@ -26,13 +26,17 @@ stompClient.onStompError = (frame) => {
 function setConnected(connected) {
     $("#connect").prop("disabled", connected);
     $("#disconnect").prop("disabled", !connected);
+
     if (connected) {
         $("#conversation").show();
+        $("#loudConversation").show();
     }
     else {
         $("#conversation").hide();
+        $("#loudConversation").hide();
     }
     $("#greetings").html("");
+    $("#screams").html("");
 }
 
 function connect() {
