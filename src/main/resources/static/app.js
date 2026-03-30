@@ -8,6 +8,10 @@ stompClient.onConnect = (frame) => {
     stompClient.subscribe('/topic/greetings', (greeting) => {
         showGreeting(JSON.parse(greeting.body).content);
     });
+
+    stompClient.subscribe('/topic/screams', (scream) => {
+        showScream(JSON.parse(scream.body).content);
+    });
 };
 
 stompClient.onWebSocketError = (error) => {
@@ -50,8 +54,19 @@ function sendName() {
     });
 }
 
+function screamName() {
+    stompClient.publish({
+        destination: "/app/scream",
+        body: JSON.stringify({'name': $("#name").val()})
+    });
+}
+
 function showGreeting(message) {
     $("#greetings").append("<tr><td>" + message + "</td></tr>");
+}
+
+function showScream(message) {
+    $("#screams").append("<tr><td>" + message + "</td></tr>");
 }
 
 $(function () {
@@ -59,4 +74,5 @@ $(function () {
     $( "#connect" ).click(() => connect());
     $( "#disconnect" ).click(() => disconnect());
     $( "#send" ).click(() => sendName());
+    $( "#scream" ).click(() => screamName());
 });
